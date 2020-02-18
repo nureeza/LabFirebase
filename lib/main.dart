@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:labfirebase/home.dart';
 
+
 //import 'package:mareeya/screeen/home.dart';
 //import 'package:mareeya/screeen/raadDatabase.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'test1',
       debugShowCheckedModeBanner: false,
       //home: Text('DATA'),
-      home:Firebase1(),
+      home:Home(),
       
     );
   }
