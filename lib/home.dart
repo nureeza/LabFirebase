@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
       fan1Bool = false,
       air1Bool = false;
   int modeInt = 0, led1Int = 0, sw1Int = 0, fan1Int = 0, air1Int = 0;
-  String name;
+  String name="";
   IotModel iotModel;
 
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
     print('Read Data Work');
 
     DatabaseReference databaseReference =
-        firebaseDatabase.reference().child('IotModel');
+        firebaseDatabase.reference().child('IoT');
     await databaseReference.once().then((DataSnapshot dataSnapshot) {
       print(
           'dataSnapshot=>${dataSnapshot.value}'); //ทุกอย่างใน document ถูกอ่านหมดเลย
@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
       sw1Int = iotModel.sw1;
       fan1Int = iotModel.fan1;
       air1Int = iotModel.air1;
+      name= iotModel.name;
       checkSwitch();
     });
   }
@@ -60,6 +61,7 @@ class _HomeState extends State<Home> {
     map['sw1'] = sw1Int;
     map['fan1'] = fan1Int;
     map['air1'] = air1Int;
+    map['name']=name;
 
     await databaseReference.set(map).then((response) {
       print('Edit Success');
@@ -335,23 +337,23 @@ class _HomeState extends State<Home> {
         child: Container(
           padding: EdgeInsets.all(20.0),
           child: Column(
-            children: <Widget>[Text('Nureeza Senbat')],
+            children: <Widget>[Text(name)],
           ),
         ),
       ),
     );
   }
 
-  Widget showWelcom() {
-    return Text(
-      ' Nureeza  Senbat',
-      style: TextStyle(
-          fontSize: 30.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.lightGreen,
-          fontStyle: FontStyle.italic),
-    );
-  }
+  // Widget showWelcom() {
+  //   return Text(
+  //     name,
+  //     style: TextStyle(
+  //         fontSize: 30.0,
+  //         fontWeight: FontWeight.bold,
+  //         color: Colors.lightGreen,
+  //         fontStyle: FontStyle.italic),
+  //   );
+  // }
 
   Widget build(BuildContext context) {
     return Container(
@@ -364,7 +366,7 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             
-            showWelcom(),
+           s(),
             switchMode(),
             button(),
             button1(),

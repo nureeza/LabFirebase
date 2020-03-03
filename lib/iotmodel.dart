@@ -4,7 +4,7 @@ class IotModel{
   String name;
 
   IotModel(
-    this.led1,this.mode,this.air1,this.fan1,this.sw1
+    this.led1,this.mode,this.air1,this.fan1,this.sw1,this.name
   );
 
     IotModel.formMap(Map<dynamic,dynamic>map){
@@ -13,6 +13,7 @@ class IotModel{
       sw1=map['sw1'];
       fan1=map['fan1'];
       air1=map['air1'];
+      name=map['name'];
       
     }
 
@@ -23,7 +24,7 @@ class IotModel{
       map['sw1']=sw1;
       map['fan1']=fan1;
       map['air1']=air1;
-
+      map['name']=name;
 
       return map;
     }
