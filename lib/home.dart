@@ -103,7 +103,7 @@ class _HomeState extends State<Home> {
     return Container(
       width: 300,
       child: Card(
-        color:Colors.green,
+        color:Colors.purpleAccent[100],
         child: Container(
           padding:EdgeInsets.all(16.0),
           child: Column(
@@ -328,12 +328,40 @@ class _HomeState extends State<Home> {
     );
   }
 
+Widget s(){
+    return Container(
+      width: 200,
+      child: Card(
+        color:Colors.greenAccent,
+        child: Container(
+          padding:EdgeInsets.all(20.0),
+          child: Column(
+            children: <Widget>[
+              Text('Nureeza Senbat')
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+Widget showWelcom() {
+    return Text(
+      ' Nureeza  Senbat',
+      style: TextStyle(
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.lightGreen,
+          fontStyle: FontStyle.italic),
+    );
+  }
 
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: RadialGradient(
-          colors:[Colors.white,Colors.limeAccent],
+          colors:[Colors.white,Colors.lightGreen],
           radius: 3.0//กระจายสี
         )
       ),
@@ -341,6 +369,9 @@ class _HomeState extends State<Home> {
       child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        s(),
+        
+
         switchMode(),
         button(),
         button1(),
