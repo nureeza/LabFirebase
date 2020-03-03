@@ -1,6 +1,7 @@
 
 class IotModel{
   int led1,mode,sw1,fan1,air1;
+  String name;
 
   IotModel(
     this.led1,this.mode,this.air1,this.fan1,this.sw1

@@ -1,8 +1,6 @@
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:labfirebase/iotmodel.dart';
-
 
 class Home extends StatefulWidget {
   @override
@@ -10,8 +8,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool modeBool = false, led1Bool=false,sw1Bool=false,fan1Bool=false,air1Bool=false;
-  int modeInt=0, led1Int=0, sw1Int=0, fan1Int=0, air1Int=0;
+  bool modeBool = false,
+      led1Bool = false,
+      sw1Bool = false,
+      fan1Bool = false,
+      air1Bool = false;
+  int modeInt = 0, led1Int = 0, sw1Int = 0, fan1Int = 0, air1Int = 0;
+  String name;
   IotModel iotModel;
 
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
@@ -22,90 +25,90 @@ class _HomeState extends State<Home> {
     readData();
   }
 
-  Future <void> readData() async {
+  Future<void> readData() async {
     print('Read Data Work');
 
-    DatabaseReference databaseReference = firebaseDatabase.reference().child('IotModel');
-    await databaseReference.once().then((DataSnapshot dataSnapshot){
-      print('dataSnapshot=>${dataSnapshot.value}');//ทุกอย่างใน document ถูกอ่านหมดเลย
+    DatabaseReference databaseReference =
+        firebaseDatabase.reference().child('IotModel');
+    await databaseReference.once().then((DataSnapshot dataSnapshot) {
+      print(
+          'dataSnapshot=>${dataSnapshot.value}'); //ทุกอย่างใน document ถูกอ่านหมดเลย
       // Map <dynamic,dynamic> values= dataSnapshot.value;
       // values.forEach((key,values){
       //   print(values['led1']);
       // });
-      iotModel=IotModel.formMap(dataSnapshot.value);
-      modeInt=iotModel.mode;
-      led1Int=iotModel.led1;
-      sw1Int=iotModel.sw1;
-      fan1Int=iotModel.fan1;
-      air1Int=iotModel.air1;
+      iotModel = IotModel.formMap(dataSnapshot.value);
+      modeInt = iotModel.mode;
+      led1Int = iotModel.led1;
+      sw1Int = iotModel.sw1;
+      fan1Int = iotModel.fan1;
+      air1Int = iotModel.air1;
       checkSwitch();
     });
   }
 
-  Future<void> editDatabase() async{//โยนค่าขึ้น firebase
+  Future<void> editDatabase() async {
+    //โยนค่าขึ้น firebase
     print('mode=$modeBool');
-    FirebaseDatabase firebaseDatabase= FirebaseDatabase.instance;
-    DatabaseReference databaseReference = firebaseDatabase.reference().child('IoT');
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+    DatabaseReference databaseReference =
+        firebaseDatabase.reference().child('IoT');
 
-    Map<dynamic,dynamic> map = Map();
-    map['mode']=modeInt;
-    map['led1']=led1Int; //โยนขึ้น firebase
-    map['sw1']=sw1Int;
-    map['fan1']=fan1Int;
-    map['air1']=air1Int;
+    Map<dynamic, dynamic> map = Map();
+    map['mode'] = modeInt;
+    map['led1'] = led1Int; //โยนขึ้น firebase
+    map['sw1'] = sw1Int;
+    map['fan1'] = fan1Int;
+    map['air1'] = air1Int;
 
-    await databaseReference.set(map).then((response){
+    await databaseReference.set(map).then((response) {
       print('Edit Success');
     });
   }
 
-  void checkSwitch(){
+  void checkSwitch() {
     setState(() {
-      if(iotModel.mode==0){
-        modeBool=false;
-      }
-      else{
-        modeBool=true;
-      }
-
-      if(iotModel.led1==0){
-        led1Bool=false;
-      }
-      else{
-        led1Bool=true;
+      if (iotModel.mode == 0) {
+        modeBool = false;
+      } else {
+        modeBool = true;
       }
 
-      if(iotModel.sw1==0){
-        sw1Bool=false;
-      }
-      else{
-        sw1Bool=true;
-      }
-
-      if(iotModel.fan1==0){
-        fan1Bool=false;
-      }
-      else{
-        fan1Bool=true;
+      if (iotModel.led1 == 0) {
+        led1Bool = false;
+      } else {
+        led1Bool = true;
       }
 
-      if(iotModel.air1==0){
-        air1Bool=false;
+      if (iotModel.sw1 == 0) {
+        sw1Bool = false;
+      } else {
+        sw1Bool = true;
       }
-      else{
-        air1Bool=true;
+
+      if (iotModel.fan1 == 0) {
+        fan1Bool = false;
+      } else {
+        fan1Bool = true;
+      }
+
+      if (iotModel.air1 == 0) {
+        air1Bool = false;
+      } else {
+        air1Bool = true;
       }
     });
-    print('mode=$modeBool,led1=$led1Bool,sw1=$sw1Bool,fan1=$fan1Bool,air1=$air1Bool');
+    print(
+        'mode=$modeBool,led1=$led1Bool,sw1=$sw1Bool,fan1=$fan1Bool,air1=$air1Bool');
   }
 
-  Widget switchMode(){
+  Widget switchMode() {
     return Container(
       width: 300,
       child: Card(
-        color:Colors.purpleAccent[100],
+        color: Colors.purpleAccent[100],
         child: Container(
-          padding:EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Text('Mode'),
@@ -113,11 +116,11 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Text('Auto'),
                   Switch(
-                    value: modeBool, 
-                    onChanged:(bool value){
+                    value: modeBool,
+                    onChanged: (bool value) {
                       changModeBool(value);
                     },
-                    ),
+                  ),
                   Text('Manual')
                 ],
               ),
@@ -128,13 +131,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget switchLed1(){
+  Widget switchLed1() {
     return Container(
       width: 200,
       child: Card(
-        color:Colors.orange,
+        color: Colors.orange,
         child: Container(
-          padding:EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Text('Led1'),
@@ -142,11 +145,11 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Text('Off'),
                   Switch(
-                    value: led1Bool, 
-                    onChanged:(bool value){
+                    value: led1Bool,
+                    onChanged: (bool value) {
                       changLed1Bool(value);
                     },
-                    ),
+                  ),
                   Text('On')
                 ],
               ),
@@ -157,13 +160,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget switchSw1(){
+  Widget switchSw1() {
     return Container(
       width: 200,
       child: Card(
-        color:Colors.orange,
+        color: Colors.orange,
         child: Container(
-          padding:EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Text('SW1'),
@@ -171,11 +174,11 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Text('Off'),
                   Switch(
-                    value: sw1Bool, 
-                    onChanged:(bool value){
+                    value: sw1Bool,
+                    onChanged: (bool value) {
                       changSw1Bool(value);
                     },
-                    ),
+                  ),
                   Text('On')
                 ],
               ),
@@ -186,13 +189,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget switchFan1(){
+  Widget switchFan1() {
     return Container(
       width: 200,
       child: Card(
-        color:Colors.orange,
+        color: Colors.orange,
         child: Container(
-          padding:EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Text('Fan1'),
@@ -200,11 +203,11 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Text('Off'),
                   Switch(
-                    value: fan1Bool, 
-                    onChanged:(bool value){
+                    value: fan1Bool,
+                    onChanged: (bool value) {
                       changFan1Bool(value);
                     },
-                    ),
+                  ),
                   Text('On')
                 ],
               ),
@@ -215,13 +218,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget switchAir1(){
+  Widget switchAir1() {
     return Container(
       width: 200,
       child: Card(
-        color:Colors.orange,
+        color: Colors.orange,
         child: Container(
-          padding:EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
               Text('Air1'),
@@ -229,11 +232,11 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Text('Off'),
                   Switch(
-                    value: air1Bool, 
-                    onChanged:(bool value){
+                    value: air1Bool,
+                    onChanged: (bool value) {
                       changair1Bool(value);
                     },
-                    ),
+                  ),
                   Text('On')
                 ],
               ),
@@ -244,72 +247,67 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void changModeBool(bool value){
+  void changModeBool(bool value) {
     setState(() {
-      modeBool=value;
-      if(modeBool){
-        modeInt=1;
-      }
-      else{
-        modeInt=0;
+      modeBool = value;
+      if (modeBool) {
+        modeInt = 1;
+      } else {
+        modeInt = 0;
       }
       editDatabase();
     });
   }
 
-  void changLed1Bool(bool value){
+  void changLed1Bool(bool value) {
     setState(() {
-      led1Bool=value;
-      if(led1Bool){
-        led1Int=1;
-      }
-      else{
-        led1Int=0;
+      led1Bool = value;
+      if (led1Bool) {
+        led1Int = 1;
+      } else {
+        led1Int = 0;
       }
       editDatabase();
     });
   }
 
-  void changSw1Bool(bool value){
+  void changSw1Bool(bool value) {
     setState(() {
-      sw1Bool=value;
-      if(sw1Bool){
-        sw1Int=1;
-      }
-      else{
-        sw1Int=0;
+      sw1Bool = value;
+      if (sw1Bool) {
+        sw1Int = 1;
+      } else {
+        sw1Int = 0;
       }
       editDatabase();
     });
   }
 
-  void changFan1Bool(bool value){
+  void changFan1Bool(bool value) {
     setState(() {
-      fan1Bool=value;
-      if(fan1Bool){
-        fan1Int=1;
-      }
-      else{
-        fan1Int=0;
+      fan1Bool = value;
+      if (fan1Bool) {
+        fan1Int = 1;
+      } else {
+        fan1Int = 0;
       }
       editDatabase();
     });
   }
 
-  void changair1Bool(bool value){
+  void changair1Bool(bool value) {
     setState(() {
-      air1Bool=value;
-      if(air1Bool){
-        air1Int=1;
-      }
-      else{
-        air1Int=0;
+      air1Bool = value;
+      if (air1Bool) {
+        air1Int = 1;
+      } else {
+        air1Int = 0;
       }
       editDatabase();
     });
   }
 
-  Widget button(){
+  Widget button() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -318,7 +316,8 @@ class _HomeState extends State<Home> {
       ],
     );
   }
-  Widget button1(){
+
+  Widget button1() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -328,25 +327,22 @@ class _HomeState extends State<Home> {
     );
   }
 
-Widget s(){
+  Widget s() {
     return Container(
       width: 200,
       child: Card(
-        color:Colors.greenAccent,
+        color: Colors.greenAccent,
         child: Container(
-          padding:EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
-            children: <Widget>[
-              Text('Nureeza Senbat')
-            ],
+            children: <Widget>[Text('Nureeza Senbat')],
           ),
         ),
       ),
     );
   }
 
-
-Widget showWelcom() {
+  Widget showWelcom() {
     return Text(
       ' Nureeza  Senbat',
       style: TextStyle(
@@ -360,23 +356,21 @@ Widget showWelcom() {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: RadialGradient(
-          colors:[Colors.white,Colors.lightGreen],
-          radius: 3.0//กระจายสี
-        )
+          gradient: RadialGradient(
+              colors: [Colors.white, Colors.lightGreen], radius: 3.0 //กระจายสี
+              )),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            
+            showWelcom(),
+            switchMode(),
+            button(),
+            button1(),
+          ],
+        ),
       ),
-    child: Center(
-      child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        s(),
-        
-
-        switchMode(),
-        button(),
-        button1(),
-      ],
-    ),),
     );
   }
 }
