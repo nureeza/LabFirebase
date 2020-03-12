@@ -329,7 +329,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget s() {
+  Widget sn() {
     return Container(
       width: 200,
       child: Card(
@@ -366,7 +366,7 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             
-           s(),
+           sn(),
             switchMode(),
             button(),
             button1(),
